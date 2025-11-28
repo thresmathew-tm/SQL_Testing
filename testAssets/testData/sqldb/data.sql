@@ -231,18 +231,16 @@ INSERT INTO role_permissions (role_id, permission_id) VALUES (4, 7);
 -- 5. PROJECTS
 -- =========================
 
-INSERT INTO projects (project_id, project_name, manager_id, project_guid) 
-VALUES (1, 'PROJ_001', 8, '10108P001');
-INSERT INTO projects (project_id, project_name, manager_id, project_guid) 
-VALUES (2, 'PROJ_010', 4, '10204P010');
-INSERT INTO projects (project_id, project_name, manager_id, project_guid) 
-VALUES (3, 'PROJ_111', 13, '10313P111');
-INSERT INTO projects (project_id, project_name) 
-VALUES (4, 'PROJ_100');
-INSERT INTO projects (project_id, project_name) 
-VALUES (5, 'PROJ_011');
-INSERT INTO projects (project_id, project_name) 
-VALUES (6, 'PROJ_101');
+INSERT INTO projects (project_id, project_name, manager_id, project_guid) VALUES
+(1, 'PROJ_001', 8, '10108P001'),
+(2, 'PROJ_010', 4, '10204P010'),
+(3, 'PROJ_111', 13, '10313P111'),
+(4, 'PROJ_401', 8, '10108-P001'),
+(5, 'PROJ_510', 4, '10504P510'),
+(6, 'PROJ_611', 13, '10613P611'),
+(7, 'PROJ_702', 9, '1040-9P202'),
+(8, 'PROJ_803', 11, '10511P303');
+
 
 -- =========================
 -- 6. USER PROJECT MAP
