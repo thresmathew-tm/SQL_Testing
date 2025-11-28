@@ -23,9 +23,8 @@ on:
           - sql-joins.test.ts
           - sql-excelVal.test.ts
           - etlValidation.test.ts
-
-services:
-  mysql:
+  services:
+    mysql:
     image: mysql:8
     ports:
       - 3306:3306
@@ -37,6 +36,7 @@ services:
       --health-interval=10s
       --health-timeout=5s
       --health-retries=3
+       
 
 jobs:
   test:
@@ -67,14 +67,7 @@ jobs:
 
       - name: Run Playwright tests
         continue-on-error: true
-        run: |
-          if [ "${{ github.event.inputs.testFile }}" = "all" ]; then
-            echo "Running ALL tests..."
-            npx playwright test --project=${{ github.event.inputs.browser }}
-          else
-            echo "Running only selected test: ${{ github.event.inputs.testFile }}"
-            npx playwright test testAssets/tests/${{ github.event.inputs.testFile }} --project=${{ github.event.inputs.browser }}
-          fi
+        run: npx playwright test --project=chromium
 
       - name: Upload Playwright Report
         if: always()
@@ -83,4 +76,4 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-          
+
