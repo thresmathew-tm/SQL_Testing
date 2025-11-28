@@ -370,7 +370,15 @@ INSERT INTO workflow_type (workflow_type_id, workflow_name, workflow_description
 (4, 'soc', 'desc');
 
 -- =========================
--- 11. WORKFLOW TYPE - INDUSTRY MAP 
+-- 11. INDUSTRY TABLE 
+-- =========================
+INSERT INTO industry (industry_id, industry_name, industry_description) VALUES
+(1, 'banking', 'desc for banking'),
+(2, 'finance', 'desc for banking'),
+(3, 'automobile', 'desc for banking'),
+(4, 'aviation', 'desc for banking');
+-- =========================
+-- 12. WORKFLOW TYPE - INDUSTRY MAP 
 -- =========================
 
 INSERT INTO workflow_ind_map (workflow_type_id, industry_id) 
@@ -391,7 +399,7 @@ INSERT INTO workflow_ind_map (workflow_type_id, industry_id)
 VALUES (4, 2);
 
 -- =========================
--- 12. TEAM ROLES
+-- 13. TEAM ROLES
 -- =========================
 
 INSERT INTO project_teamrole (teamrole_id, teamrole_name) 
@@ -406,7 +414,7 @@ INSERT INTO project_teamrole (teamrole_id, teamrole_name)
 VALUES (5, 'Lead Manager');
 
 -- =========================
--- 13. VERSION TABLE
+-- 14. VERSION TABLE
 -- =========================
 INSERT INTO versions (version_id, version_name, version_date) 
 VALUES (1, '23.1', '2023-01-01'); 
@@ -420,7 +428,7 @@ INSERT INTO versions (version_id, version_name, version_date)
 VALUES (5, '25.1', '2025-01-01');
 
 -- =========================
--- 14. STANDARDS TABLE    
+-- 15. STANDARDS TABLE    
 -- =========================
 
 INSERT INTO standards (standard_id, standard_title) 
@@ -429,14 +437,7 @@ INSERT INTO standards (standard_id, standard_title)
 VALUES (2, 'IFRS');
 INSERT INTO standards (standard_id, standard_title) 
 VALUES (3, 'ACIP');
--- =========================
--- 15. INDUSTRY TABLE 
--- =========================
-INSERT INTO industry (industry_id, industry_name, industry_description) VALUES
-(1, 'banking', 'desc for banking'),
-(2, 'finance', 'desc for banking'),
-(3, 'automobile', 'desc for banking'),
-(4, 'aviation', 'desc for banking');
+
 
 
 

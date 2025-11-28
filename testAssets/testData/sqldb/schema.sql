@@ -116,9 +116,17 @@ CREATE TABLE workflow_type(
   workflow_description VARCHAR(50)
 );
 
+-- =========================
+-- 11. INDUSTRY TABLE 
+-- =========================
+CREATE TABLE industry (
+    industry_id INT PRIMARY KEY,
+    industry_name VARCHAR(255),
+    industry_description VARCHAR(500)
+);
 
 -- =========================
--- 11. WORKFLOW TYPE - INDUSTRY MAP 
+-- 12. WORKFLOW TYPE - INDUSTRY MAP 
 -- =========================
 CREATE TABLE workflow_ind_map (
     workflow_type_id INT,
@@ -128,7 +136,7 @@ CREATE TABLE workflow_ind_map (
 );
 
 -- =========================
--- 12. TEAM ROLES
+-- 13. TEAM ROLES
 -- =========================
 CREATE TABLE project_teamrole(
   teamrole_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -136,7 +144,7 @@ CREATE TABLE project_teamrole(
 );
 
 -- =========================
--- 13. VERSION TABLE
+-- 14. VERSION TABLE
 -- =========================
 CREATE TABLE versions(
   version_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -144,21 +152,13 @@ CREATE TABLE versions(
   version_date DATE
 );
 -- =========================
--- 14. STANDARDS TABLE    
+-- 15. STANDARDS TABLE    
 -- =========================
 CREATE TABLE standards (
     standard_id INT PRIMARY KEY,
     standard_title VARCHAR(100)
 );
 
--- =========================
--- 15. INDUSTRY TABLE 
--- =========================
-CREATE TABLE industry (
-    industry_id INT PRIMARY KEY,
-    industry_name VARCHAR(255),
-    industry_description VARCHAR(500)
-);
 
 
 -- =========================
