@@ -59,7 +59,7 @@ jobs:
 
       - name: Load schemas and data
         run: |
-          declare -A DBS
+         declare -A DBS
           DBS=( 
             ["sqldb"]="testAssets/testData/sqldb" 
             ["sourcedb"]="testAssets/testData/sourcedb" 
@@ -68,12 +68,25 @@ jobs:
 
           for DB in "${!DBS[@]}"; do
             echo "Loading database $DB..."
+            
             SCHEMA_PATH="${DBS[$DB]}/schema.sql"
             DATA_PATH="${DBS[$DB]}/data.sql"
 
+            # Create database
             mysql -h 127.0.0.1 -uroot -p"Tester@08" -e "CREATE DATABASE IF NOT EXISTS $DB;"
-            mysql -h 127.0.0.1 -uroot -p"Tester@08" $DB < $SCHEMA_PATH
-            mysql -h 127.0.0.1 -uroot -p"Tester@08" $DB < $DATA_PATH
+
+            # Load schema
+            echo "→ Loading schema for $DB"
+            mysql -h 127.0.0.1 -uroot -p"Tester@08" $DB < "$SCHEMA_PATH"
+
+            # Load data ONLY IF data.sql exists
+            if [[ -f "$DATA_PATH" ]]; then
+              echo "→ Loading data for $DB"
+              mysql -h 127.0.0.1 -uroot -p"Tester@08" $DB < "$DATA_PATH"
+            else
+              echo "→ No data.sql found for $DB (skipping data load)"
+            fi
+
           done
 
       - name: Setup Node.js
