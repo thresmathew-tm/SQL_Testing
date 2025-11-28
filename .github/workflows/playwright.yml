@@ -23,12 +23,25 @@ on:
           - sql-joins.test.ts
           - sql-excelVal.test.ts
           - etlValidation.test.ts
-       
+      services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: Tester@08
+          MYSQL_DATABASE: sqldb
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=5s
+          --health-timeout=2s
+          --health-retries=5 
 
 jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 60
+
 
     steps:
       - name: Checkout repository
