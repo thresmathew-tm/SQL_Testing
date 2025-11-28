@@ -1,0 +1,46 @@
+{
+    "query1":{
+        "desc":"List all projects with manager names",
+        "query":"SELECT p.project_id, p.project_name, CONCAT(u.first_name, ' ', u.last_name) AS manager_name FROM projects p JOIN users u ON p.manager_id = u.user_id;"
+    },
+    "query2":{
+        "desc":"list of projects where levi king is a partner - has ??",
+        "query":"SELECT concat( u.first_name,' ',u.last_name)as user_name,p.project_name,p.project_guid,p.project_id,t.teamrole_name FROM user_projects up JOIN users u ON up.user_id=u.user_id JOIN projects p ON up.project_id = p.project_id JOIN proj_details_map pdm ON p.project_id = pdm.project_id JOIN project_teamrole t ON pdm.teamrole_id = t.teamrole_id WHERE t.teamrole_name = ? AND CONCAT(u.first_name, ' ', u.last_name) =?;"
+    },
+    "query3":{
+        "desc":"has ?",
+        "query":" SELECT DISTINCT p.project_name,  p.project_guid,c.control_title,r.risk_title FROM proj_details_map pdm JOIN projects p ON pdm.project_id = p.project_id JOIN controls c ON pdm.control_id = c.control_id JOIN risks r ON pdm.risk_id = r.risk_id WHERE r.risk_title = ?;"
+    },
+    "query4":{
+        "desc":"",
+        "query":"SELECT u.user_id, CONCAT(u.first_name, ' ', u.last_name) AS full_name, r.role_name FROM users u JOIN roles r ON u.role_id = r.role_id;"
+    },
+    "query5":{
+        "desc":"Show which users are assigned to which projects",
+        "query":"SELECT u.first_name, u.last_name, p.project_name FROM user_projects up JOIN users u ON up.user_id = u.user_id JOIN projects p ON up.project_id = p.project_id ORDER BY u.user_id;"
+    },
+      "query6":{
+        "desc":"Show logs with user full name and role",
+        "query":"SELECT l.log_id, CONCAT(u.first_name, ' ', u.last_name) AS user_name, r.role_name, l.time_stamp, l.device_info FROM logs l JOIN users u ON l.user_id = u.user_id JOIN roles r ON u.role_id = r.role_id ORDER BY l.log_id;"
+    },
+      "query7":{
+        "desc":"Show each projects workflow, version, FS, risk, control, and team role",
+        "query":"SELECT p.project_name, w.workflow_name, v.version_name, f.fs_process, r.risk_title, c.control_title, t.teamrole_name FROM proj_details_map pd JOIN projects p ON pd.project_id = p.project_id JOIN workflow_type w ON pd.workflow_type_id = w.workflow_type_id JOIN versions v ON pd.version_id = v.version_id JOIN fs f ON pd.fs_id = f.fs_id JOIN risks r ON pd.risk_id = r.risk_id JOIN controls c ON pd.control_id = c.control_id JOIN project_teamrole t ON pd.teamrole_id = t.teamrole_id;"
+    },
+      "query8":{
+        "desc":"List industries and associated standards",
+        "query":"SELECT i.industry_name, s.standard_title FROM industry_standards ist JOIN industry i ON ist.industry_id = i.industry_id JOIN standards s ON ist.standard_id = s.standard_id ORDER BY i.industry_id, s.standard_id;"
+    },
+      "query9":{
+        "desc":"Show workflow types associated with each industry",
+        "query":"SELECT i.industry_name, w.workflow_name FROM wrkflw_indstry wi JOIN industry i ON wi.industry_id = i.industry_id JOIN workflow_type w ON wi.workflow_type_id = w.workflow_type_id ORDER BY i.industry_id;"
+    },
+      "query10":{
+        "desc":"List team roles and their allowed permissions",
+        "query":"SELECT t.teamrole_name, tp.teamrole_permission_name FROM teamrole_permission_map tm JOIN project_teamrole t ON tm.teamrole_id = t.teamrole_id JOIN teamrole_permissions tp ON tm.teamrole_permission_id = tp.teamrole_permission_id ORDER BY t.teamrole_id;"
+    },
+      "query11":{
+        "desc":"Count users per role",
+        "query":"SELECT r.role_name, COUNT(u.user_id) AS user_count FROM users u JOIN roles r ON u.role_id = r.role_id GROUP BY r.role_name;"
+    }
+}

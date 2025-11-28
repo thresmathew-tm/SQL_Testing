@@ -1,0 +1,153 @@
+{
+    "validation 1":{
+        "desc":"Validate source table structure",
+        "query":{
+            "v1":"DESCRIBE sourcedb.src_employee;",
+            "v2":"DESCRIBE sourcedb.src_department;",
+            "v3":"DESCRIBE sourcedb.src_job;"
+        }
+    },
+    "validation 2":{
+        "desc":"Validate target table structure",
+        "query":{
+            "v1":"DESCRIBE targetdb.tgt_employee;",
+            "v2":"DESCRIBE targetdb.tgt_department;",
+            "v3":"DESCRIBE targetdb.tgt_job;",
+            "v4":"DESCRIBE targetdb.tgt_fact_salary;"
+        }
+    },
+    "validation 3":{
+        "desc":"Check indexes on SK and FK columns",
+        "query":{
+            "v1":"SHOW INDEX FROM targetdb.tgt_employee;",
+            "v2":"SHOW INDEX FROM targetdb.tgt_department;",
+            "v3":"SHOW INDEX FROM targetdb.tgt_job;",
+            "v4":"SHOW INDEX FROM targetdb.tgt_fact_salary;"
+        }
+    },
+    "validation 4":{
+        "desc":"Source vs target count validation",
+        "query":{
+            "v1":"SELECT 'src_employee', COUNT(*) FROM sourcedb.src_employee UNION ALL SELECT 'tgt_employee', COUNT(*) FROM targetdb.tgt_employee;",
+            "v2":"SELECT 'src_job', COUNT(*) FROM sourcedb.src_job UNION ALL SELECT 'tgt_job', COUNT(*) FROM targetdb.tgt_job;",
+            "v3":"SELECT 'src_department', COUNT(*) FROM sourcedb.src_department UNION ALL SELECT 'tgt_department', COUNT(*) FROM targetdb.tgt_department;"
+        }
+    },
+    "validation 5":{
+        "desc":"Check for duplicates in source",
+        "query":{
+            "v1":"SELECT emp_id, COUNT(*) FROM sourcedb.src_employee GROUP BY emp_id HAVING COUNT(*) > 1;",
+            "v2":"SELECT job_code, COUNT(*) FROM sourcedb.src_job GROUP BY job_code HAVING COUNT(*) > 1;",
+            "v3":"SELECT dept_code, COUNT(*) FROM sourcedb.src_department GROUP BY dept_code HAVING COUNT(*) > 1;"
+        }
+    },
+     "validation 6":{
+        "desc":"Check surrogate key uniqueness",
+        "query":{
+            "v1":"SELECT COUNT(*) AS total_rows, COUNT(DISTINCT emp_sk) AS distinct_emp_sk FROM targetdb.tgt_employee;",
+            "v2":"SELECT COUNT(*) AS total_rows, COUNT(DISTINCT dept_sk) AS distinct_dept_sk FROM targetdb.tgt_department;",
+            "v3":"SELECT COUNT(*) AS total_rows, COUNT(DISTINCT job_sk) AS distinct_job_sk FROM targetdb.tgt_job;"       
+        }
+    },
+    "validation 7":{
+        "desc":"Check mandatory columns for NULL",
+        "query":{
+            "v1":"SELECT * FROM targetdb.tgt_employee WHERE emp_id IS NULL OR full_name IS NULL OR job_sk IS NULL OR dept_sk IS NULL;",
+
+            "v2":"SELECT * FROM targetdb.tgt_fact_salary WHERE emp_sk IS NULL OR salary_date IS NULL OR salary_amount IS NULL;",
+
+            "v3":"SELECT * FROM targetdb.tgt_department WHERE dept_code IS NULL OR dept_name IS NULL OR location IS NULL;",
+
+            "v4":"SELECT * FROM targetdb.tgt_job WHERE job_code IS NULL OR job_title IS NULL;"
+
+        }
+    },
+    "validation 8":{
+        "desc":"Confirm date formats & precision",
+        "query":{
+            "v1":"SELECT emp_id, hire_date FROM targetdb.tgt_employee WHERE hire_date > CURRENT_DATE OR hire_date IS NULL;",
+            "v2":"SELECT emp_id, salary FROM sourcedb.src_employee WHERE salary <= 0;"
+        }
+    },
+    "validation 9":{
+        "desc":"Validate full_name transformation",
+        "query":"SELECT s.emp_id,t.full_name,CONCAT(s.first_name,',', s.last_name) AS expected_full_name FROM sourcedb.src_employee s JOIN targetdb.tgt_employee t ON s.emp_id = t.emp_id WHERE t.full_name <> CONCAT(s.first_name,' ', s.last_name);"
+    },
+    "validation 10":{
+        "desc":"validate sk mapping",
+        "query":{
+            "v1":"SELECT t.emp_id, t.job_sk, j.job_code FROM targetdb.tgt_employee t JOIN targetdb.tgt_job j ON t.job_sk = j.job_sk WHERE j.job_code IS NULL;",
+            "v2":"SELECT t.emp_id, t.dept_sk, d.dept_code FROM targetdb.tgt_employee t JOIN targetdb.tgt_department d ON t.dept_sk = d.dept_sk WHERE d.dept_code IS NULL;",
+            "v3":"SELECT emp_sk, manager_sk FROM targetdb.tgt_employee WHERE manager_sk IS NOT NULL AND manager_sk NOT IN (SELECT emp_sk FROM targetdb.tgt_employee);"
+        }
+    },
+     "validation 11":{
+        "desc":"Validate salary fact load table for any salary mismatch",
+        "query":"SELECT f.emp_sk,t.emp_id,f.salary_amount,s.salary AS source_salary FROM targetdb.tgt_fact_salary f JOIN targetdb.tgt_employee t ON f.emp_sk = t.emp_sk JOIN sourcedb.src_employee s ON t.emp_id = s.emp_id WHERE f.salary_amount <> s.salary;"
+    },
+    "validation 12":{
+        "desc":"Validate SCD Type-2 logic",
+        "query":"SELECT * FROM targetdb.tgt_employee WHERE current_flag NOT IN ('Y','N') OR effective_date IS NULL;"
+    },
+    "validation 13":{
+        "desc":"Validate foreign keys",
+        "query":"SELECT emp_id FROM targetdb.tgt_employee WHERE dept_sk NOT IN (SELECT dept_sk FROM targetdb.tgt_department) OR job_sk NOT IN (SELECT job_sk FROM targetdb.tgt_job);"
+    },
+    "validation 14":{
+        "desc":"Validate manager hierarchy",
+        "query":"SELECT emp_id, manager_sk FROM targetdb.tgt_employee WHERE manager_sk = emp_id;"
+    },
+    "validation 15":{
+        "desc":"Full data comparison - validation of all etl transformations :  return mismatch records.",
+        "query":{
+            "v1":"SELECT s.emp_id, CONCAT(s.first_name, ',', s.last_name) AS expected_full_name,t.full_name, s.email, t.email FROM sourcedb.src_employee s JOIN targetdb.tgt_employee t ON s.emp_id = t.emp_id WHERE CONCAT(s.first_name, ',', s.last_name) <> t.full_name OR s.email <> t.email;",
+            "v2":"SELECT s.job_code,s.job_title AS source_title,t.job_title AS target_title,s.min_salary AS source_min,t.min_salary AS target_min,s.max_salary AS source_max,t.max_salary AS target_max FROM sourcedb.src_job s JOIN targetdb.tgt_job t ON s.job_code = t.job_code WHERE s.job_title <> t.job_title OR s.min_salary <> t.min_salary OR s.max_salary <> t.max_salary;",
+            "v3":"SELECT s.dept_code,s.dept_name AS source_name,t.dept_name AS target_name,COALESCE(s.location, 'UNKNOWN') AS source_location,t.location AS target_location FROM sourcedb.src_department s JOIN targetdb.tgt_department t ON s.dept_code = t.dept_code WHERE s.dept_name <> t.dept_name OR COALESCE(s.location, 'UNKNOWN') <> t.location;",
+            "v4":"SELECT f.emp_sk,t.emp_id,f.salary_amount AS target_salary,s.salary AS source_salary FROM targetdb.tgt_fact_salary f JOIN targetdb.tgt_employee t ON f.emp_sk = t.emp_sk JOIN sourcedb.src_employee s ON t.emp_id = s.emp_id WHERE f.salary_amount <> s.salary;"
+        }
+    },
+    "validation 16":{
+        "desc":"Schema validation target table",
+        "query":{
+            "v1":"SELECT  * FROM targetdb.tgt_employee;",
+            "v2":"SELECT  * FROM targetdb.tgt_department;",
+            "v3":"SELECT  * FROM targetdb.tgt_job;",
+            "v4":"SELECT  * FROM targetdb.tgt_fact_salary;"
+        }
+    },
+    "validation 17":{
+        "desc":"Schema validation source table",
+        "query":{
+            "v1":"SELECT  * FROM sourcedb.src_employee;",
+            "v2":"SELECT  * FROM sourcedb.src_department;",
+            "v3":"SELECT  * FROM sourcedb.src_job;"
+        }
+    },
+
+    "validation 18":{
+        "desc":"schema validation for both target and source tables",
+        "query":{
+            "tv1":"SELECT  * FROM targetdb.tgt_employee;",
+            "tv2":"SELECT  * FROM targetdb.tgt_department;",
+            "tv3":"SELECT  * FROM targetdb.tgt_job;",
+            "tv4":"SELECT  * FROM targetdb.tgt_fact_salary;",
+            "sv1":"SELECT  * FROM sourcedb.src_employee;",
+            "sv2":"SELECT  * FROM sourcedb.src_department;",
+            "sv3":"SELECT  * FROM sourcedb.src_job;"
+        }
+        
+    },
+      "validation 19":{
+        "desc":"Validate source table structure",
+        "query":{
+            "tv1":"DESCRIBE targetdb.tgt_employee;",
+            "tv2":"DESCRIBE targetdb.tgt_department;",
+            "tv3":"DESCRIBE targetdb.tgt_job;",
+            "tv4":"DESCRIBE targetdb.tgt_fact_salary;",
+            "sv1":"DESCRIBE sourcedb.src_employee;",
+            "sv2":"DESCRIBE sourcedb.src_department;",
+            "sv3":"DESCRIBE sourcedb.src_job;"
+        }
+    }
+    
+}
