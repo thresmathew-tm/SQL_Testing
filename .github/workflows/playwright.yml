@@ -91,13 +91,7 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      #  Create .env for DB connection (defaulting to sqldb)
-      - name: Create .env for DB connection
-        run: |
-          echo DB_HOST=mysql >> .env
-          echo DB_USER=root >> .env
-          echo DB_PASSWORD=Tester@08 >> .env
-          echo DB_NAME=sqldb >> .env
+    
 
       #  Run Playwright tests
       - name: Run Playwright tests
