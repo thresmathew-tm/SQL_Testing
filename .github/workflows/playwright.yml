@@ -23,7 +23,14 @@ on:
           - sql-joins.test.ts
           - sql-excelVal.test.ts
           - etlValidation.test.ts
-      services:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    # Define MySQL service
+    services:
       mysql:
         image: mysql:8.0
         env:
@@ -34,18 +41,27 @@ on:
           --health-cmd="mysqladmin ping --silent"
           --health-interval=5s
           --health-timeout=2s
-          --health-retries=5 
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
-
+          --health-retries=10
 
     steps:
+      #  Checkout repository first
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Install MySQL client
       - name: Install MySQL client
         run: sudo apt-get install -y mysql-client
 
+      #  Wait for MySQL service to be ready
+      - name: Wait for MySQL
+        run: |
+          for i in {1..20}; do
+            mysqladmin ping -h mysql -uroot -p"Tester@08" &>/dev/null && break
+            echo "Waiting for MySQL..."
+            sleep 5
+          done
+
+      #  Load schemas and data for multiple databases
       - name: Load schemas and data
         run: |
           declare -A DBS
@@ -56,35 +72,39 @@ jobs:
             SCHEMA_PATH="${DBS[$DB]}/schema.sql"
             DATA_PATH="${DBS[$DB]}/data.sql"
 
-            mysql -h mysql -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" -e "CREATE DATABASE IF NOT EXISTS $DB;"
-            mysql -h mysql -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" $DB < $SCHEMA_PATH
-            mysql -h mysql -uroot -p"${{ secrets.MYSQL_ROOT_PASSWORD }}" $DB < $DATA_PATH
+            mysql -h mysql -uroot -p"Tester@08" -e "CREATE DATABASE IF NOT EXISTS $DB;"
+            mysql -h mysql -uroot -p"Tester@08" $DB < $SCHEMA_PATH
+            mysql -h mysql -uroot -p"Tester@08" $DB < $DATA_PATH
           done
-      - name: Checkout repository
-        uses: actions/checkout@v4
 
+      #  Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: lts/*
 
+      #  Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      #  Install Playwright browsers
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+      #  Create .env for DB connection (defaulting to sqldb)
       - name: Create .env for DB connection
         run: |
-          echo DB_HOST=${{ secrets.DB_HOST }} >> .env
-          echo DB_USER=${{ secrets.DB_USER }} >> .env
-          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
-          echo DB_NAME=${{ secrets.DB_NAME }} >> .env
+          echo DB_HOST=mysql >> .env
+          echo DB_USER=root >> .env
+          echo DB_PASSWORD=Tester@08 >> .env
+          echo DB_NAME=sqldb >> .env
 
+      #  Run Playwright tests
       - name: Run Playwright tests
         continue-on-error: true
         run: npx playwright test --project=chromium
 
+      # Upload Playwright report
       - name: Upload Playwright Report
         if: always()
         uses: actions/upload-artifact@v4
@@ -92,4 +112,3 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-
