@@ -299,25 +299,17 @@ INSERT INTO user_projects (user_id, project_id) VALUES (15, 1);
 -- =========================
 -- 7. RISKS
 -- =========================
-INSERT INTO risks (risk_id, risk_title, risk_description) 
+INSERT INTO risks (risk_id, risk_title, risk_description) VALUES
+(1, 'risk_one', 'description for risk one'),
+(2, 'risk_two', 'description for risk two'),
+(3, 'risk_three', 'description for risk three'),
+(4, 'risk_four', 'description for risk four'),
+(5, 'risk_five', 'description for risk five'),
+(6, 'Data Breach', 'Unauthorized access to sensitive data'),
+(7, 'Operational Failure', 'System or process breakdown'),
+(8, 'Regulatory Non-Compliance', 'Failure to comply with industry standards'),
+(9, 'Fraud Risk', 'Potential financial or data fraud activities');
 
-VALUES (1, 'risk_one', 'description for risk one');
- 
-INSERT INTO risks (risk_id, risk_title, risk_description) 
-
-VALUES (2, 'risk_two', 'description for risk two');
- 
-INSERT INTO risks (risk_id, risk_title, risk_description) 
-
-VALUES (3, 'risk_three', 'description for risk three');
- 
-INSERT INTO risks (risk_id, risk_title, risk_description) 
-
-VALUES (4, 'risk_four', 'description for risk four');
- 
-INSERT INTO risks (risk_id, risk_title, risk_description) 
-
-VALUES (5, 'risk_five', 'description for risk five');
 
 -- =========================
 -- 8. CONTROLS
