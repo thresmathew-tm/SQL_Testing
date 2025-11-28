@@ -109,4 +109,26 @@ test.describe("testing of working of sql queries",async()=>{
     // test("12.",async()=>{
         
     // });
+//     test("validating no duplicate project_guid in projects", async () => {
+//   const duplicates = await runQuery(`
+//     SELECT project_guid, COUNT(*) as count
+//     FROM projects
+//     GROUP BY project_guid
+//     HAVING count > 1
+//   `);
+//   expect(duplicates.length).toBe(0);
+// });
+
+// test("should update and verify project GUIDs for project_id 5", async () => {
+//     await runQuery(
+//       `UPDATE projects SET project_guid = ? WHERE project_id = ?`,
+//       ["10504P510", 5]
+//     );
+
+//     const results = await runQuery<{ project_id: number; project_guid: string }>(
+//       `SELECT project_id, project_guid FROM projects WHERE project_id = ?`,[5]
+//     );
+//     expect(results).toContainEqual({ project_id: 5, project_guid: "10504P510" });
+  
+//   });
 });

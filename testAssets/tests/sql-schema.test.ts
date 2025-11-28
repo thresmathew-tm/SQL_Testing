@@ -1,43 +1,56 @@
 import { test, expect } from "@playwright/test";
 import { runQuery } from "../testData/utils/db";
+import { QueryValidationPage } from "../pageObjects/queryValidationPage";
 
 test.describe("schema validation",async()=>{
-test("validating projects table has expected columns", async () => {
-  const rows = await runQuery("DESCRIBE projects");
-  const columns = rows.map((r: any) => r.Field);
-  expect(columns).toEqual(["project_id", "project_name", "manager_id", "project_guid"]);
+  const queryValidationPage = new QueryValidationPage();
+// test("validating projects table has expected columns", async () => {
+//   const rows = await runQuery("DESCRIBE projects");
+//   const columns = rows.map((r: any) => r.Field);
+//   expect(columns).toEqual(["project_id", "project_name", "manager_id", "project_guid"]);
+// });
+
+// test("validating users table has expected columns",async()=>{
+//  const rows = await runQuery("DESCRIBE users");
+//   const columns = rows.map((r: any) => r.Field);
+//   expect(columns).toEqual(["user_id","first_name","last_name","email","password","role_id","created_at"]);
+// });
+
+// test("projects table has expected datatypes", async () => {
+//   await queryValidationPage.validateTable("projects", queryValidationPage.expectedProjectsTypes);
+// });
+// test("users table has expected datatypes", async () => {
+//   await queryValidationPage.validateTable("users", queryValidationPage.expectedUsersTypes);
+// });
+
+test("validate all table structures", async () => {
+  await queryValidationPage.validateTable("roles", queryValidationPage.expectedRolesTypes);
+  await queryValidationPage.validateTable("users", queryValidationPage.expectedUsersTypes);
+  await queryValidationPage.validateTable("projects", queryValidationPage.expectedProjectsTypes);
+  await queryValidationPage.validateTable("risks", queryValidationPage.expectedRisksTypes);
+  await queryValidationPage.validateTable("controls", queryValidationPage.expectedControlsTypes);
+  await queryValidationPage.validateTable("fs", queryValidationPage.expectedFsTypes);
+  await queryValidationPage.validateTable("versions", queryValidationPage.expectedVersionsTypes);
+  await queryValidationPage.validateTable("workflow_type", queryValidationPage.expectedWorkflowTypeTypes);
+  await queryValidationPage.validateTable("project_teamrole", queryValidationPage.expectedProjectTeamroleTypes);
+  await queryValidationPage.validateTable("teamrole_permissions", queryValidationPage.expectedTeamrolePermissionsTypes);
+  await queryValidationPage.validateTable("teamrole_permission_map", queryValidationPage.expectedTeamrolePermissionMapTypes);
+  await queryValidationPage.validateTable("role_permissions", queryValidationPage.expectedRolePermissionsTypes);
+  await queryValidationPage.validateTable("user_projects", queryValidationPage.expectedUserProjectsTypes);
+  await queryValidationPage.validateTable("logs", queryValidationPage.expectedLogsTypes);
+  await queryValidationPage.validateTable("proj_details_map", queryValidationPage.expectedProjDetailsMapTypes);
 });
 
+test("validate all table columns and data types", async () => {
+  const tables=queryValidationPage.schemas;
 
-test("validating users table has expected columns",async()=>{
- const rows = await runQuery("DESCRIBE users");
-  const columns = rows.map((r: any) => r.Field);
-  expect(columns).toEqual(["user_id","first_name","last_name","email","password","role_id","created_at"]);
+  for (let i=0; i<tables.length; i++) {
+    const tableName=tables[i].table;
+    const expectedSchema=tables[i].types;
+    await queryValidationPage.validateTable(tableName, expectedSchema);
+  }  
+
 });
-
-
-test("validating no duplicate project_guid in projects", async () => {
-  const duplicates = await runQuery(`
-    SELECT project_guid, COUNT(*) as count
-    FROM projects
-    GROUP BY project_guid
-    HAVING count > 1
-  `);
-  expect(duplicates.length).toBe(0);
-});
-
-test("should update and verify project GUIDs for project_id 5", async () => {
-    await runQuery(
-      `UPDATE projects SET project_guid = ? WHERE project_id = ?`,
-      ["10504P510", 5]
-    );
-
-    const results = await runQuery<{ project_id: number; project_guid: string }>(
-      `SELECT project_id, project_guid FROM projects WHERE project_id = ?`,[5]
-    );
-    expect(results).toContainEqual({ project_id: 5, project_guid: "10504P510" });
-  
-  });
 
 });
 

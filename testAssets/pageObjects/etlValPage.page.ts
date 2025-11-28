@@ -91,11 +91,16 @@ async isBoolean(val: any): Promise<boolean> {
   return val === null || typeof val === "boolean" || val === 0 || val === 1;
 }   
 async validateValueByType(value: any, expectedType: string): Promise<boolean> {
-  if (expectedType.startsWith("varchar")) return await this.isVarchar(value);
-  if (expectedType.startsWith("char")) return await this.isChar1(value);
-  if (expectedType.startsWith("decimal")) return await this.isDecimal(value);
-  if (expectedType === "int") return await this.isInt(value);
-  if (expectedType === "date") return await this.isDate(value);
+  if (expectedType.startsWith("varchar")) 
+    {return await this.isVarchar(value);}
+  if (expectedType.startsWith("char")) 
+    {return await this.isChar1(value);}
+  if (expectedType.startsWith("decimal")) 
+    {return await this.isDecimal(value);}
+  if (expectedType === "int") 
+    {return await this.isInt(value);}
+  if (expectedType === "date") 
+    {return await this.isDate(value);}
 
   return false; // unknown type
 }
