@@ -314,29 +314,21 @@ INSERT INTO risks (risk_id, risk_title, risk_description) VALUES
 -- =========================
 -- 8. CONTROLS
 -- =========================
-INSERT INTO controls (control_id, control_title, control_description) 
+INSERT INTO controls (control_id, control_title, control_description) VALUES
+(1, 'control_one', 'description for control one'),
+(2, 'control_two', 'description for control two'),
+(3, 'control_three', 'description for control three'),
+(4, 'control_four', 'description for control four'),
+(5, 'control_five', 'description for control five'),
+(6, 'control_six', 'description for control six'),
+(7, 'Encrypt Sensitive Data', 'Implement encryption for data'),
+(8, 'Access Control Policy', 'Restrict user access based on role'),
+(9, 'Incident Response Plan', 'Documented response procedures for breaches'),
+(10, 'Compliance Monitoring', 'Periodic monitoring for compliance'),
+(11, 'Audit Logs', 'Maintain logs for all system activities'),
+(12, 'Regular Backups', 'Ensure frequent and secure data backups'),
+(13, 'User Training', 'Conduct awareness programs for employees');
 
-VALUES (1, 'control_one', 'description for control one');
- 
-INSERT INTO controls (control_id, control_title, control_description) 
-
-VALUES (2, 'control_two', 'description for control two');
- 
-INSERT INTO controls (control_id, control_title, control_description) 
-
-VALUES (3, 'control_three', 'description for control three');
- 
-INSERT INTO controls (control_id, control_title, control_description) 
-
-VALUES (4, 'control_four', 'description for control four');
- 
-INSERT INTO controls (control_id, control_title, control_description) 
-
-VALUES (5, 'control_five', 'description for control five');
- 
-INSERT INTO controls (control_id, control_title, control_description) 
-
-VALUES (6, 'control_six', 'description for control six');
 
 -- =========================
 -- 9. FS TABLE
