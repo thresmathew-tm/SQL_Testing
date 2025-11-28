@@ -116,8 +116,19 @@ CREATE TABLE workflow_type(
   workflow_description VARCHAR(50)
 );
 
+
 -- =========================
--- 11. TEAM ROLES
+-- 11. WORKFLOW TYPE - INDUSTRY MAP 
+-- =========================
+CREATE TABLE workflow_ind_map (
+    workflow_type_id INT,
+    industry_id INT,
+    FOREIGN KEY (workflow_type_id) REFERENCES workflow_type(workflow_type_id),
+    FOREIGN KEY (industry_id) REFERENCES industry(industry_id)
+);
+
+-- =========================
+-- 12. TEAM ROLES
 -- =========================
 CREATE TABLE project_teamrole(
   teamrole_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -125,16 +136,44 @@ CREATE TABLE project_teamrole(
 );
 
 -- =========================
--- 12. VERSION TABLE
+-- 13. VERSION TABLE
 -- =========================
 CREATE TABLE versions(
   version_id INT PRIMARY KEY AUTO_INCREMENT,
   version_name VARCHAR(50),
   version_date DATE
 );
+-- =========================
+-- 14. STANDARDS TABLE    
+-- =========================
+CREATE TABLE standards (
+    standard_id INT PRIMARY KEY,
+    standard_title VARCHAR(100)
+);
 
 -- =========================
--- 13. TEAMROLE PERMISSIONS + MAP
+-- 15. INDUSTRY TABLE 
+-- =========================
+CREATE TABLE industry (
+    industry_id INT PRIMARY KEY,
+    industry_name VARCHAR(255),
+    industry_description VARCHAR(500)
+);
+
+
+-- =========================
+-- 16. INDUSTRY STANDARD MAP
+-- =========================
+CREATE TABLE industry_standard_map (
+    industry_id INT,
+    standard_id INT,
+    FOREIGN KEY (industry_id) REFERENCES industry(industry_id),
+    FOREIGN KEY (standard_id) REFERENCES standards(standard_id)
+);
+
+
+-- =========================
+-- 17. TEAMROLE PERMISSIONS + MAP
 -- =========================
 CREATE TABLE teamrole_permissions(
   teamrole_permission_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -150,8 +189,11 @@ CREATE TABLE teamrole_permission_map(
       REFERENCES teamrole_permissions(teamrole_permission_id)
 );
 
+
+
+
 -- =========================
--- 14. PROJECT DETAILS MAP
+-- 18. PROJECT DETAILS MAP
 -- =========================
 CREATE TABLE proj_details_map(
   project_id INT,
