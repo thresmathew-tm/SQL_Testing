@@ -29,11 +29,11 @@
     },
       "query8":{
         "desc":"List industries and associated standards",
-        "query":"SELECT i.industry_name, s.standard_title FROM industry_standards ist JOIN industry i ON ist.industry_id = i.industry_id JOIN standards s ON ist.standard_id = s.standard_id ORDER BY i.industry_id, s.standard_id;"
+        "query":"SELECT i.industry_name, s.standard_title FROM industry_standard_map ist JOIN industry i ON ist.industry_id = i.industry_id JOIN standards s ON ist.standard_id = s.standard_id ORDER BY i.industry_id, s.standard_id;"
     },
       "query9":{
         "desc":"Show workflow types associated with each industry",
-        "query":"SELECT i.industry_name, w.workflow_name FROM wrkflw_indstry wi JOIN industry i ON wi.industry_id = i.industry_id JOIN workflow_type w ON wi.workflow_type_id = w.workflow_type_id ORDER BY i.industry_id;"
+        "query":"SELECT i.industry_name, w.workflow_name FROM workflow_ind_map wi JOIN industry i ON wi.industry_id = i.industry_id JOIN workflow_type w ON wi.workflow_type_id = w.workflow_type_id ORDER BY i.industry_id;"
     },
       "query10":{
         "desc":"List team roles and their allowed permissions",
