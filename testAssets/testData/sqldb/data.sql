@@ -493,25 +493,25 @@ VALUES (5, 3);
 -- 18. PROJECT DETAILS MAP
 -- =========================
 
-INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id, risk_id, control_id, teamrole_id) 
+INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id,control_id, risk_id, teamrole_id) 
 VALUES (2, 2, 4, 2, 8, 3, 2); 
-INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id, risk_id, control_id, teamrole_id) 
+INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id, control_id,risk_id,  teamrole_id) 
 VALUES (3, 3, 5, 3, 1, 4, 3);
-INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id, risk_id, control_id, teamrole_id) 
+INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id,control_id, risk_id, teamrole_id) 
 VALUES (1, 1, 2, 1, 6, 2, 1); 
-INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id, risk_id, control_id, teamrole_id) 
+INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id,control_id, risk_id, teamrole_id) 
 VALUES (2, 2, 3, 2, 5, 3, 1); 
-INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id, risk_id, control_id, teamrole_id) 
+INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id,control_id, risk_id,  teamrole_id) 
 VALUES (3, 3, 5, 3, 9, 4, 1); 
-INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id, risk_id, control_id, teamrole_id) 
+INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id,control_id, risk_id, teamrole_id) 
 VALUES (4, 1, 1, 4, 7, 6, 2);
-INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id, risk_id, control_id, teamrole_id) 
+INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id,control_id, risk_id,  teamrole_id) 
 VALUES (5, 2, 2, 5, 8, 7, 3);
-INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id, risk_id, control_id, teamrole_id) 
+INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id,control_id, risk_id,  teamrole_id) 
 VALUES (6, 3, 3, 3, 9, 8, 1);
-INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id, risk_id, control_id, teamrole_id) 
+INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id,control_id, risk_id, teamrole_id) 
 VALUES (7, 1, 4, 2, 10, 9, 2); 
-INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id, risk_id, control_id, teamrole_id) 
+INSERT INTO proj_details_map (project_id, workflow_type_id, version_id, fs_id,control_id, risk_id,  teamrole_id) 
 VALUES (8, 2, 5, 1, 11, 6, 3);
 
 
