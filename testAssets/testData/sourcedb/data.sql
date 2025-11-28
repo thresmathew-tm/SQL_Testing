@@ -1,0 +1,58 @@
+use sourcedb;
+
+INSERT INTO src_department (dept_code, dept_name, location) VALUES
+('HR', 'Human Resources', 'New York'),
+('IT', 'Information Technology', 'San Francisco'),
+('FIN', 'Finance', 'Chicago'),
+('MKT', 'Marketing', 'Boston'),
+('SAL', 'Sales', 'Los Angeles'),
+('OPS', 'Operations', 'Seattle');
+
+INSERT INTO src_job (job_code, job_title, min_salary, max_salary) VALUES
+('HR01', 'HR Manager', 60000, 90000),
+('HR02', 'HR Assistant', 40000, 60000),
+('IT01', 'Software Engineer', 70000, 120000),
+('IT02', 'System Analyst', 65000, 100000),
+('FIN01', 'Financial Analyst', 60000, 95000),
+('FIN02', 'Accountant', 50000, 80000),
+('MKT01', 'Marketing Specialist', 55000, 85000),
+('SAL01', 'Sales Executive', 45000, 75000),
+('OPS01', 'Operations Manager', 65000, 100000),
+('OPS02', 'Operations Assistant', 40000, 60000);
+
+INSERT INTO src_employee (emp_id, first_name, last_name, email, hire_date, job_code, dept_code, salary, manager_id) VALUES
+(1, 'George', 'Miller', 'george.miller@example.com', '2025-08-06', 'FIN02', 'IT', 58346.83, NULL),
+(2, 'Paula', 'Garcia', 'paula.garcia@example.com', '2018-07-06', 'OPS02', 'SAL', 46159.12, NULL),
+(3, 'Ethan', 'Smith', 'ethan.smith@example.com', '2024-10-29', 'FIN02', 'IT', 74351.83, NULL),
+(4, 'Mike', 'Davis', 'mike.davis@example.com', '2016-03-18', 'IT01', 'IT', 102594.78, NULL),
+(5, 'Kevin', 'Davis', 'kevin.davis@example.com', '2020-05-28', 'MKT01', 'MKT', 55824.88, 2),
+(6, 'Paula', 'Johnson', 'paula.johnson@example.com', '2022-07-13', 'OPS01', 'HR', 72332.00, 4),
+(7, 'Tina', 'Wilson', 'tina.wilson@example.com', '2022-10-27', 'FIN01', 'FIN', 89554.84, 1),
+(8, 'Fiona', 'Jones', 'fiona.jones@example.com', '2021-10-04', 'HR02', 'OPS', 59173.94, 6),
+(9, 'George', 'Smith', 'george.smith@example.com', '2024-07-23', 'HR02', 'OPS', 53345.82, 8),
+(10, 'Rachel', 'Anderson', 'rachel.anderson@example.com', '2021-08-31', 'FIN02', 'SAL', 68215.66, 1),
+(11, 'Ian', 'Jackson', 'ian.jackson@example.com', '2018-01-01', 'FIN01', 'HR', 70739.79, 7),
+(12, 'George', 'Jackson', 'george.jackson@example.com', '2018-06-26', 'OPS02', 'OPS', 54275.28, 1),
+(13, 'Zack', 'Johnson', 'zack.johnson@example.com', '2022-04-12', 'MKT01', 'HR', 77889.99, 4),
+(14, 'Diana', 'Hernandez', 'diana.hernandez@example.com', '2019-11-30', 'OPS01', 'OPS', 84019.75, 6),
+(15, 'Zack', 'Thomas', 'zack.thomas@example.com', '2024-10-20', 'IT01', 'OPS', 118594.56, NULL),
+(16, 'Fiona', 'Jones', 'fiona.jones@example.com', '2021-12-09', 'HR02', 'FIN', 45260.66, 9),
+(17, 'Paula', 'Miller', 'paula.miller@example.com', '2022-06-27', 'HR01', 'MKT', 60463.69, 14),
+(18, 'Paula', 'Rodriguez', 'paula.rodriguez@example.com', '2025-08-02', 'HR01', 'HR', 64314.02, 15),
+(19, 'Uma', 'Anderson', 'uma.anderson@example.com', '2021-03-18', 'FIN02', 'HR', 52716.39, 9),
+(20, 'Zack', 'Thomas', 'zack.thomas@example.com', '2021-01-03', 'OPS01', 'SAL', 70132.27, 19),
+(21, 'Kevin', 'Moore', 'kevin.moore@example.com', '2017-05-14', 'MKT01', 'IT', 70314.38, 4),
+(22, 'Zack', 'Thomas', 'zack.thomas@example.com', '2023-03-02', 'OPS02', 'FIN', 54374.64, 17),
+(23, 'Xavier', 'Davis', 'xavier.davis@example.com', '2023-05-21', 'IT01', 'OPS', 106029.18, 6),
+(24, 'Kevin', 'Williams', 'kevin.williams@example.com', '2019-04-02', 'HR02', 'SAL', 46446.99, 10),
+(25, 'Fiona', 'Rodriguez', 'fiona.rodriguez@example.com', '2017-12-13', 'FIN01', 'SAL', 73453.79, 11),
+(26, 'Charlie', 'Martinez', 'charlie.martinez@example.com', '2016-12-10', 'OPS02', 'HR', 50230.59, 2),
+(27, 'John', 'Johnson', 'john.johnson@example.com', '2022-02-01', 'HR01', 'MKT', 65222.57, 15),
+(28, 'Wendy', 'Wilson', 'wendy.wilson@example.com', '2022-05-29', 'IT01', 'OPS', 115006.01, 14),
+(29, 'John', 'Lopez', 'john.lopez@example.com', '2025-07-18', 'FIN01', 'MKT', 72482.55, 9),
+(30, 'Julia', 'Hernandez', 'julia.hernandez@example.com', '2022-03-07', 'FIN01', 'IT', 87013.99, 4),
+(31, 'Zack', 'Jones', 'zack.jones@example.com', '2017-09-07', 'FIN02', 'IT', 69691.97, 24),
+(32, 'Julia', 'Lopez', 'julia.lopez@example.com', '2016-01-27', 'FIN01', 'SAL', 74333.05, 4),
+(33, 'Tina', 'Martin', 'tina.martin@example.com', '2016-04-01', 'FIN01', 'HR', 77556.46, 7),
+(34, 'Kevin', 'Brown', 'kevin.brown@example.com', '2021-08-13', 'OPS01', 'FIN', 92541.25, 19),
+(35, 'Steve', 'Jackson', 'steve.jackson@example.com', '2016-07-11', 'HR01', 'MKT', 75614.80, 17);
