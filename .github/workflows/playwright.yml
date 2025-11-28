@@ -12,8 +12,7 @@ on:
           - chromium
           - firefox
           - webkit
-
-
+          
 jobs:
   test:
     runs-on: ubuntu-latest
