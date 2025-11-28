@@ -12,7 +12,19 @@ on:
           - chromium
           - firefox
           - webkit
+      testFile:
+        description: "Select the test to run"
+        required: true
+        type: choice
+        options:
+          - all
+          - sql-schema.test.ts
+          - sql-queries.test.ts
+          - sql-joins.test.ts
+          - sql-excelVal.test.ts
+          - etlValidation.test.ts
           
+
 jobs:
   test:
     runs-on: ubuntu-latest
